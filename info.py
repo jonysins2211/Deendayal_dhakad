@@ -162,7 +162,7 @@ else:
     ON_HEROKU = False
 BIND_ADRESS = str(getenv('WEB_SERVER_BIND_ADDRESS', '0.0.0.0'))
 FQDN = str(getenv('FQDN', BIND_ADRESS)) if not ON_HEROKU or getenv('FQDN') else APP_NAME+'.herokuapp.com'
-URL = "https://movie-loverzz-f2c1e32890d7.herokuapp.com/".format(FQDN) if ON_HEROKU or NO_PORT else "https://movie-loverzz-f2c1e32890d7.herokuapp.com/".format(FQDN, PORT)
+URL = "https://a-loki-bot1-8ef8e94f5b66.herokuapp.com/".format(FQDN) if ON_HEROKU or NO_PORT else "https://a-loki-bot1-8ef8e94f5b66.herokuapp.com/".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
 WORKERS = int(environ.get('WORKERS', '4'))
 SESSION_NAME = str(environ.get('SESSION_NAME', 'DeendayalBot'))
@@ -176,9 +176,9 @@ else:
     ON_HEROKU = False
 HAS_SSL = bool(getenv('HAS_SSL', True))
 if HAS_SSL:
-    URL = "https://movie-loverzz-f2c1e32890d7.herokuapp.com/".format(FQDN)
+    URL = "https://a-loki-bot1-8ef8e94f5b66.herokuapp.com/".format(FQDN)
 else:
-    URL = "https://movie-loverzz-f2c1e32890d7.herokuapp.com/".format(FQDN)
+    URL = "https://a-loki-bot1-8ef8e94f5b66.herokuapp.com/".format(FQDN)
 
 # ============================
 # Reactions Configuration
