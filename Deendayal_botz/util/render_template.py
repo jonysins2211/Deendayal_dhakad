@@ -6,6 +6,7 @@ from Deendayal_botz.Bot import DeendayalBot
 from Deendayal_botz.util.human_readable import humanbytes
 from Deendayal_botz.util.file_properties import get_file_ids
 from Deendayal_botz.server.exceptions import InvalidHash
+from Template import jisshu_template
 import urllib.parse
 import logging
 import aiohttp
@@ -43,5 +44,10 @@ async def render_page(id, secure_hash, src=None):
         file_name=file_name,
         file_url=src,
         file_size=file_size,
+        tg_button=tg_button,
         file_unique_id=file_data.unique_id,
+        template_ne=jisshu_template.JISSHU_NAME,
+        jisshu_disclaimer=jisshu_template.JISSHU_DISCLAIMER,
+        jisshu_report_link=jisshu_template.JISSHU_REPORT_LINK,
+        jisshu_colours=jisshu_template.JISSHU_COLOURS
     )
