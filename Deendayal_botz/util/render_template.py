@@ -1,5 +1,3 @@
-#Thanks @dreamcinezone for helping in this journey 
-
 import jinja2
 from info import *
 from Deendayal_botz.Bot import DeendayalBot
@@ -15,6 +13,7 @@ import aiohttp
 async def render_page(id, secure_hash, src=None):
     file = await DeendayalBot.get_messages(int(LOG_CHANNEL), int(id))
     file_data = await get_file_ids(DeendayalBot, int(LOG_CHANNEL), int(id))
+
     if file_data.unique_id[:6] != secure_hash:
         logging.debug(f"link hash: {secure_hash} - {file_data.unique_id[:6]}")
         logging.debug(f"Invalid hash for message with - ID {id}")
@@ -27,24 +26,27 @@ async def render_page(id, secure_hash, src=None):
 
     tag = file_data.mime_type.split("/")[0].strip()
     file_size = humanbytes(file_data.file_size)
+
     if tag in ["video", "audio"]:
-        template_file = "Deendayal_botz/template/req.html"
+        template_name = "req.html"
     else:
-        template_file = "Deendayal_botz/template/dl.html"
+        template_name = "dl.html"
         async with aiohttp.ClientSession() as s:
             async with s.get(src) as u:
                 file_size = humanbytes(int(u.headers.get("Content-Length")))
 
-    with open(template_file) as f:
-        template = jinja2.Template(f.read())
+    # ✅ Load Jinja2 Environment
+    template_loader = jinja2.FileSystemLoader(searchpath="Deendayal_botz/template")
+    template_env = jinja2.Environment(loader=template_loader)
+    template = template_env.get_template(template_name)
 
     file_name = file_data.file_name.replace("_", " ")
 
+    # ✅ Pass all required variables
     return template.render(
         file_name=file_name,
         file_url=src,
         file_size=file_size,
-        tg_button=tg_button,
         file_unique_id=file_data.unique_id,
         template_ne=jisshu_template.JISSHU_NAME,
         jisshu_disclaimer=jisshu_template.JISSHU_DISCLAIMER,
