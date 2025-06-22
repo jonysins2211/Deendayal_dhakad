@@ -1,8 +1,8 @@
 import jinja2
-import os
 import urllib.parse
 import logging
 import aiohttp
+from pathlib import Path
 
 from info import *
 from Deendayal_botz.Bot import DeendayalBot
@@ -37,14 +37,18 @@ async def render_page(id, secure_hash, src=None):
             async with s.get(src) as u:
                 file_size = humanbytes(int(u.headers.get("Content-Length")))
 
-    # ✅ Use absolute path (safe for Heroku or any OS)
-    template_path = os.path.join(os.path.dirname(__file__), "Deendayal_botz", "template")
-    template_loader = jinja2.FileSystemLoader(searchpath=template_path)
+    # ✅ Use Pathlib to get the correct /template folder
+    BASE_DIR = Path(__file__).resolve().parent.parent  # Goes from /util → /Deendayal_botz
+    template_path = BASE_DIR / "template"
+
+    # ✅ Load Jinja2 environment
+    template_loader = jinja2.FileSystemLoader(searchpath=str(template_path))
     template_env = jinja2.Environment(loader=template_loader)
     template = template_env.get_template(template_name)
 
     file_name = file_data.file_name.replace("_", " ")
 
+    # ✅ Render HTML with all variables
     return template.render(
         file_name=file_name,
         file_url=src,
