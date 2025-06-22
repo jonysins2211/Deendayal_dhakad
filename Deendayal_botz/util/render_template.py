@@ -1,13 +1,15 @@
 import jinja2
+import os
+import urllib.parse
+import logging
+import aiohttp
+
 from info import *
 from Deendayal_botz.Bot import DeendayalBot
 from Deendayal_botz.util.human_readable import humanbytes
 from Deendayal_botz.util.file_properties import get_file_ids
 from Deendayal_botz.server.exceptions import InvalidHash
 from Template import jisshu_template
-import urllib.parse
-import logging
-import aiohttp
 
 
 async def render_page(id, secure_hash, src=None):
@@ -35,14 +37,14 @@ async def render_page(id, secure_hash, src=None):
             async with s.get(src) as u:
                 file_size = humanbytes(int(u.headers.get("Content-Length")))
 
-    # ✅ Load Jinja2 Environment
-    template_loader = jinja2.FileSystemLoader(searchpath="Deendayal_botz/template")
+    # ✅ Use absolute path (safe for Heroku or any OS)
+    template_path = os.path.join(os.path.dirname(__file__), "Deendayal_botz", "template")
+    template_loader = jinja2.FileSystemLoader(searchpath=template_path)
     template_env = jinja2.Environment(loader=template_loader)
     template = template_env.get_template(template_name)
 
     file_name = file_data.file_name.replace("_", " ")
 
-    # ✅ Pass all required variables
     return template.render(
         file_name=file_name,
         file_url=src,
