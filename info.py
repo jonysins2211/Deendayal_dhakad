@@ -176,9 +176,9 @@ else:
     ON_HEROKU = False
 HAS_SSL = bool(getenv('HAS_SSL', True))
 if HAS_SSL:
-    URL = "https://movie-loverz-bot2-2a324b8f9db4.herokuapp.com/".format(FQDN)
+    URL = "https://a-loki-bot2-b9b930b68654.herokuapp.com/".format(FQDN)
 else:
-    URL = "https://movie-loverz-bot2-2a324b8f9db4.herokuapp.com/".format(FQDN)
+    URL = "https://a-loki-bot2-b9b930b68654.herokuapp.com/".format(FQDN)
 
 # ============================
 # Reactions Configuration
